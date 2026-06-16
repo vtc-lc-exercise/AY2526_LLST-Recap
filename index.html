@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLST Digital Showcase Poster</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  @keyframes floatUp { from { opacity:0; transform:translateY(40px);} to {opacity:1; transform:translateY(0);} }
+  @keyframes bob { 0%,100%{transform:translateY(0) rotate(var(--r,0deg));} 50%{transform:translateY(-14px) rotate(var(--r,0deg));} }
+  @keyframes shine { 0%{background-position:0% center;} 100%{background-position:200% center;} }
+  @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.06);} }
+  @keyframes drift { 0%{background-position:0 0;} 100%{background-position:80px 80px;} }
+  @keyframes ripple { to { transform:scale(4); opacity:0; } }
+  @keyframes popClick { 0%{transform:scale(1);} 40%{transform:scale(0.94);} 70%{transform:scale(1.04);} 100%{transform:scale(1);} }
+  @keyframes flyArrow { 0%{transform:translateX(0);} 50%{transform:translateX(6px);} 100%{transform:translateX(0);} }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    color: #3d4252;
+    padding: 26px 14px;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    background:
+      radial-gradient(circle at 10% 12%, rgba(255,182,193,0.5), transparent 30%),
+      radial-gradient(circle at 90% 15%, rgba(255,236,153,0.55), transparent 32%),
+      radial-gradient(circle at 82% 88%, rgba(167,243,208,0.55), transparent 34%),
+      radial-gradient(circle at 15% 90%, rgba(186,230,253,0.55), transparent 34%),
+      linear-gradient(160deg, #fff5f7 0%, #fef9ef 45%, #f0fbff 100%);
+  }
+  body::before {
+    content:''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      radial-gradient(rgba(255,140,170,0.06) 1.5px, transparent 1.5px),
+      radial-gradient(rgba(130,180,255,0.05) 1.5px, transparent 1.5px);
+    background-size: 46px 46px, 46px 46px;
+    background-position: 0 0, 23px 23px;
+    animation: drift 22s linear infinite;
+  }
+  .poster { max-width: 640px; margin: 0 auto; position: relative; z-index: 2; }
+
+  .deco {
+    position: fixed; font-size: 2.6rem; pointer-events: none; user-select: none;
+    opacity: 0.7; z-index: 1; animation: bob 5s ease-in-out infinite;
+    filter: drop-shadow(0 5px 9px rgba(0,0,0,0.1));
+  }
+  .deco.a { top: 12%; left: 4%; --r:-12deg; animation-delay:0s; }
+  .deco.b { top: 20%; right: 5%; --r:14deg; animation-delay:.8s; }
+  .deco.c { bottom: 12%; left: 6%; --r:10deg; animation-delay:1.4s; }
+  .deco.d { bottom: 20%; right: 4%; --r:-10deg; animation-delay:2s; }
+
+  .header { text-align: center; margin-bottom: 36px; animation: floatUp .8s ease both; }
+  .header .badge {
+    display:inline-block; background: linear-gradient(90deg,#ff9a9e,#fad0c4,#ffd166);
+    color:#7a3b00; padding:8px 24px; border-radius:999px;
+    font-size:.78rem; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    margin-bottom:18px; box-shadow:0 8px 20px rgba(255,154,158,0.4); animation:pulse 3s ease-in-out infinite;
+  }
+  .header h1 {
+    font-family:'Fredoka',sans-serif; font-size:3.2rem; font-weight:700; line-height:1.05; margin-bottom:14px;
+    background: linear-gradient(90deg,#ff6b9d 0%,#ff922b 25%,#06d6a0 50%,#4dabf7 75%,#ff6b9d 100%);
+    background-size:200% auto; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+    animation: shine 5s linear infinite;
+  }
+  .header .sub { font-size:1.05rem; color:#6b7280; max-width:600px; margin:0 auto 18px; line-height:1.5; }
+  .header .tagline {
+    display:inline-block; font-family:'Fredoka',sans-serif; font-size:1.02rem; font-weight:500; color:#d6336c;
+    background:#fff; border:2px solid #ffd6e8; padding:10px 26px; border-radius:16px;
+    box-shadow:0 8px 18px rgba(255,107,157,0.16);
+  }
+
+  .group { margin-bottom: 36px; }
+  .group-label { display:flex; align-items:center; gap:12px; margin-bottom:20px; animation:floatUp .8s ease both; flex-wrap:wrap; }
+  .group-label .title { font-family:'Fredoka',sans-serif; font-size:1.2rem; font-weight:600; color:#5b3a8c; }
+  .group-label .tag { font-size:.72rem; background:#ffd166; color:#7a5200; padding:5px 13px; border-radius:10px; font-weight:700; box-shadow:0 4px 9px rgba(255,209,102,0.4); }
+  .group-label .tag.openday { background:#20e3b2; color:#00513c; box-shadow:0 4px 9px rgba(32,227,178,0.4); }
+  .group-label .line { flex:1; min-width:30px; height:3px; background:linear-gradient(90deg,rgba(180,150,230,0.5),transparent); border-radius:3px; }
+
+  .cards { display:flex; flex-direction:column; gap:22px; }
+
+  .card {
+    background:#fff; border-radius:24px; overflow:hidden;
+    box-shadow:0 14px 34px rgba(150,120,200,0.2);
+    position:relative; display:flex; flex-direction:column;
+    transition:transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s ease;
+    animation:floatUp .9s ease both;
+  }
+  .card:hover { transform:translateY(-8px) scale(1.01); box-shadow:0 24px 50px rgba(150,120,200,0.32); }
+
+  .hero { height:150px; position:relative; overflow:hidden; }
+  .fashion .hero { background:linear-gradient(135deg,#ff8fb1,#ff6b9d); }
+  .auto .hero { background:linear-gradient(135deg,#ffa94d,#f7676b); }
+  .pitch .hero { background:linear-gradient(135deg,#0fd6a6,#20b4c8); }
+  .hero svg { position:absolute; inset:0; width:100%; height:100%; }
+  .hero .hero-content { position:absolute; bottom:13px; left:18px; right:18px; z-index:3; display:flex; align-items:center; gap:12px; }
+  .hero .emoji-badge {
+    font-size:1.8rem; width:52px; height:52px; background:rgba(255,255,255,0.96);
+    border-radius:15px; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 13px rgba(0,0,0,0.2); flex-shrink:0;
+  }
+  .hero .htitle { color:#fff; }
+  .hero .trade { font-size:.64rem; font-weight:700; text-transform:uppercase; letter-spacing:1.1px; opacity:.95; }
+  .hero h3 { font-family:'Fredoka',sans-serif; font-size:1.38rem; text-shadow:0 2px 8px rgba(0,0,0,0.22); line-height:1.1; }
+
+  .card-body { padding:18px 22px 22px; display:flex; flex-direction:column; flex:1; }
+  .card .desc { font-size:.9rem; color:#6b7280; margin-bottom:14px; line-height:1.5; }
+  .card ul { list-style:none; margin-bottom:16px; flex:1; }
+  .card li { font-size:.87rem; padding:7px 0 7px 26px; position:relative; color:#3d4252; line-height:1.45; border-bottom:1px dashed #f1eef7; }
+  .card li:last-child { border-bottom:none; }
+  .card li::before { content:'✦'; position:absolute; left:0; top:7px; }
+  .fashion li::before { color:#ff6b9d; }
+  .auto li::before { color:#f7676b; }
+  .pitch li::before { color:#06d6a0; }
+  .card li b { color:#1f2433; font-weight:600; }
+
+  /* QR ZONE — now a clickable link */
+  .qr-zone {
+    display:flex; align-items:center; gap:15px; border-radius:15px; padding:13px 15px; color:#fff; margin-top:auto;
+    text-decoration:none; cursor:pointer; position:relative; overflow:hidden;
+    transition:transform .25s ease, box-shadow .25s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .qr-zone:hover { transform:translateY(-3px); box-shadow:0 10px 24px rgba(0,0,0,0.2); }
+  .qr-zone:hover .go-arrow { animation:flyArrow .6s ease infinite; }
+  .qr-zone.clicked { animation:popClick .5s ease; }
+  .fashion .qr-zone { background:linear-gradient(120deg,#ff6b9d,#ffa3c4); }
+  .auto .qr-zone { background:linear-gradient(120deg,#ff922b,#f7676b); }
+  .pitch .qr-zone { background:linear-gradient(120deg,#06d6a0,#20b4c8); }
+  .qr-box { width:78px; height:78px; background:#fff; padding:6px; border-radius:11px; flex-shrink:0; display:flex; align-items:center; justify-content:center; box-shadow:0 5px 11px rgba(0,0,0,0.18); position:relative; z-index:2; }
+  .qr-box img, .qr-box canvas { width:100% !important; height:100% !important; border-radius:5px; }
+  .qr-text { position:relative; z-index:2; flex:1; }
+  .qr-text b { display:block; font-family:'Fredoka',sans-serif; font-size:1.02rem; margin-bottom:3px; }
+  .qr-text .scan { font-size:.78rem; opacity:.95; line-height:1.35; }
+  .go-arrow { font-family:'Fredoka',sans-serif; font-size:1.4rem; z-index:2; flex-shrink:0; display:inline-block; }
+  /* ripple element */
+  .ripple-dot {
+    position:absolute; border-radius:50%; background:rgba(255,255,255,0.55);
+    transform:scale(0); animation:ripple .6s ease-out; pointer-events:none; z-index:1;
+  }
+
+  .footer { text-align:center; margin-top:14px; padding:26px 18px 8px; border-top:2px dashed rgba(180,150,230,0.3); animation:floatUp .9s ease both; }
+  .footer .team { font-family:'Fredoka',sans-serif; font-size:1.2rem; color:#5b3a8c; margin-bottom:8px; }
+  .footer .team b { background:linear-gradient(90deg,#ff6b9d,#ff922b,#06d6a0); background-size:200% auto; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; font-weight:700; animation:shine 4s linear infinite; }
+  .footer .small { font-size:.86rem; color:#9aa1b0; }
+
+  @media (max-width: 720px) {
+    .header h1 { font-size:2.1rem; }
+    .header .sub { font-size:.92rem; }
+    .header .tagline { font-size:.92rem; padding:9px 20px; }
+    .deco { font-size:1.8rem; opacity:.5; }
+    .deco.b, .deco.d { display:none; }
+  }
+  @media (max-width: 420px) {
+    body { padding:18px 10px; }
+    .header h1 { font-size:1.8rem; }
+    .hero h3 { font-size:1.2rem; }
+    .qr-zone { gap:12px; padding:12px; }
+    .qr-box { width:70px; height:70px; }
+    .card-body { padding:16px 18px 18px; }
+  }
+</style>
+</head>
+<body>
+  <span class="deco a">👕</span>
+  <span class="deco b">🚦</span>
+  <span class="deco c">👜</span>
+  <span class="deco d">💖</span>
+
+<div class="poster">
+  <div class="header">
+    <span class="badge">YCKC &amp; YCPF · Language Centre</span>
+    <h1>LLST Digital Showcase</h1>
+    <div class="sub">Scaffolded writing tools that bring English learning closer to students' real-world &amp; trade experience — AY 2025/26 🚀</div>
+    <div class="tagline">✨ One Approach · Three Platforms ✨</div>
+  </div>
+
+  <div class="group">
+    <div class="group-label">
+      <span class="title">Trade Collaborations</span>
+      <span class="tag">with ProAct Counterparts 🤝</span>
+      <span class="line"></span>
+    </div>
+    <div class="cards">
+
+      <div class="card fashion" style="animation-delay:.1s">
+        <div class="hero">
+          <svg viewBox="0 0 320 150" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <g fill="rgba(255,255,255,0.16)">
+              <path d="M210 18 l-22 -8 a18 18 0 0 1 -36 0 l-22 8 -20 20 16 16 10 -8 0 70 70 0 0 -70 10 8 16 -16z"/>
+            </g>
+            <g fill="rgba(255,255,255,0.10)">
+              <circle cx="40" cy="40" r="10"/>
+              <circle cx="285" cy="110" r="14"/>
+              <path d="M60 110 l10 4 -4 10 -10 -4z"/>
+              <path d="M250 30 l8 8 -8 8 -8 -8z"/>
+            </g>
+            <text x="150" y="78" font-size="26" text-anchor="middle">💘</text>
+          </svg>
+          <div class="hero-content">
+            <div class="emoji-badge">👕</div>
+            <div class="htitle">
+              <div class="trade">Fashion · ProAct</div>
+              <h3>Cupid's Tee Party</h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="desc">Students design a Valentine's tee, then build a full English description step by step.</div>
+          <ul>
+            <li><b>Step-by-step scaffolding</b> with sentence patterns</li>
+            <li><b>Live Preview</b> — see your sentence build instantly</li>
+            <li>7 vocab banks: themes, colours, shapes, fabrics &amp; more</li>
+            <li>🔊 Listen · 📥 PDF download · built-in AI Bot</li>
+          </ul>
+          <a class="qr-zone" href="https://vtc-lc-exercise.github.io/yckc-lc-llst-fashion-description/" target="_blank" rel="noopener">
+            <div class="qr-box" id="qr-fashion"></div>
+            <div class="qr-text"><b>Try it now!</b><span class="scan">📱 Scan or tap to design your tee</span></div>
+            <span class="go-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="card auto" style="animation-delay:.2s">
+        <div class="hero">
+          <svg viewBox="0 0 320 150" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(58,58)">
+              <polygon points="-14,-34 14,-34 34,-14 34,14 14,34 -14,34 -34,14 -34,-14" fill="rgba(255,255,255,0.22)"/>
+              <text x="0" y="6" font-size="13" fill="rgba(255,255,255,0.9)" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700">STOP</text>
+            </g>
+            <g transform="translate(230,46)">
+              <polygon points="0,-30 30,24 -30,24" fill="rgba(255,255,255,0.18)"/>
+              <text x="0" y="20" font-size="26" text-anchor="middle">⚠</text>
+            </g>
+            <g transform="translate(265,115)">
+              <circle r="22" fill="rgba(255,255,255,0.2)"/>
+              <text x="0" y="6" font-size="14" fill="rgba(255,255,255,0.95)" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700">50</text>
+            </g>
+            <g stroke="rgba(255,255,255,0.18)" stroke-width="4" stroke-dasharray="10 8">
+              <line x1="0" y1="135" x2="320" y2="135"/>
+            </g>
+          </svg>
+          <div class="hero-content">
+            <div class="emoji-badge">🚦</div>
+            <div class="htitle">
+              <div class="trade">Automotive · ProAct</div>
+              <h3>Car-tography of Signs</h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="desc">Students design a road sign and write a precise, technical description of it.</div>
+          <ul>
+            <li><b>Precise technical language</b>: type, shape, colour, purpose</li>
+            <li><b>Bilingual vocab</b> (中／英) with audio Pit Stop</li>
+            <li>Auto-generated <b>student report</b> (class code + name)</li>
+            <li>🚀 Direct upload to Padlet for the whole class</li>
+          </ul>
+          <a class="qr-zone" href="https://vtc-lc-exercise.github.io/AY2526-LLSC-Car-tography/" target="_blank" rel="noopener">
+            <div class="qr-box" id="qr-auto"></div>
+            <div class="qr-text"><b>Try it now!</b><span class="scan">📱 Scan or tap to design a road sign</span></div>
+            <span class="go-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-label">
+      <span class="title">LC Open Day Project</span>
+      <span class="tag openday">YCKC Open Day 2026 🎉</span>
+      <span class="line"></span>
+    </div>
+    <div class="cards">
+
+      <div class="card pitch" style="animation-delay:.15s">
+        <div class="hero">
+          <svg viewBox="0 0 320 150" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(160,80)">
+              <path d="M-34 -16 h68 l6 50 h-80z" fill="rgba(255,255,255,0.2)"/>
+              <path d="M-18 -16 a18 22 0 0 1 36 0" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="4"/>
+            </g>
+            <g fill="rgba(255,255,255,0.1)">
+              <circle cx="45" cy="40" r="11"/>
+              <circle cx="280" cy="105" r="13"/>
+              <path d="M70 115 l8 3 -3 8 -8 -3z"/>
+            </g>
+            <text x="160" y="86" font-size="22" text-anchor="middle">✨</text>
+          </svg>
+          <div class="hero-content">
+            <div class="emoji-badge">👜</div>
+            <div class="htitle">
+              <div class="trade">Language Centre · Open Day</div>
+              <h3>Pitch, Please!</h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="desc">Visitors design a tote bag and write a professional "pitch" — going beyond description into presentation skills.</div>
+          <ul>
+            <li><b>Professional pitch writing</b> — describe + persuade</li>
+            <li>4 sentence-pattern sets: colours, features, locations, reasons</li>
+            <li>Word bank with 🔊 audio &amp; bilingual support</li>
+            <li><b>#Hashtags + IG / social share</b> — perfect for Open Day buzz</li>
+          </ul>
+          <a class="qr-zone" href="https://vtc-lc-exercise.github.io/openday-pitchplease/" target="_blank" rel="noopener">
+            <div class="qr-box" id="qr-pitch"></div>
+            <div class="qr-text"><b>Try it now!</b><span class="scan">📱 Scan or tap to write your pitch</span></div>
+            <span class="go-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="team">🌟 Brought to you by <b>LLST</b></div>
+    <div class="small">Got ideas for next AY's collaboration? We're all ears! 👂</div>
+  </div>
+</div>
+
+<script>
+  function makeQR(id, url) {
+    new QRCode(document.getElementById(id), {
+      text: url, width: 150, height: 150,
+      colorDark: "#5b3a8c", colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  }
+  window.addEventListener('load', function() {
+    makeQR('qr-fashion', 'https://vtc-lc-exercise.github.io/yckc-lc-llst-fashion-description/');
+    makeQR('qr-auto', 'https://vtc-lc-exercise.github.io/AY2526-LLSC-Car-tography/');
+    makeQR('qr-pitch', 'https://vtc-lc-exercise.github.io/openday-pitchplease/');
+
+    // click animation + ripple, then open link
+    document.querySelectorAll('.qr-zone').forEach(function(zone){
+      zone.addEventListener('click', function(e){
+        e.preventDefault();
+        var href = this.getAttribute('href');
+
+        // ripple at click point
+        var rect = this.getBoundingClientRect();
+        var dot = document.createElement('span');
+        dot.className = 'ripple-dot';
+        var size = Math.max(rect.width, rect.height);
+        dot.style.width = dot.style.height = size + 'px';
+        dot.style.left = (e.clientX - rect.left - size/2) + 'px';
+        dot.style.top = (e.clientY - rect.top - size/2) + 'px';
+        this.appendChild(dot);
+
+        // pop bounce
+        this.classList.remove('clicked');
+        void this.offsetWidth; // restart animation
+        this.classList.add('clicked');
+
+        // open link after animation
+        setTimeout(function(){
+          window.open(href, '_blank', 'noopener');
+        }, 480);
+        setTimeout(function(){ dot.remove(); }, 650);
+      });
+    });
+  });
+</script>
+</body>
+</html>
